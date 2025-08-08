@@ -47,4 +47,24 @@ class TaskModel extends TaskEntity{
       isCompleted: isCompleted,
     );
   }
+  TaskModel updateModel({
+    String? title,
+    String? description,
+    DateTime? startedDate,
+    DateTime? dueDate,
+    Priority? priority,
+    Status? status,
+    bool? isCompleted    
+  }){
+    return TaskModel(
+      user: user,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      startedDate: startedDate ?? this.startedDate,
+      dueDate: dueDate ?? this.dueDate,
+      priority: priority ?? this.priority,
+      status: status ?? this.status,
+      isCompleted: isCompleted ?? this.isCompleted
+    );
+  }
 }
