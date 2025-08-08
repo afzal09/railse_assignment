@@ -1,12 +1,13 @@
 enum Priority{low, medium, high, veryHigh}
-
+enum Status{notStarted, started, completed}
 class TaskEntity {
   final String user;
   final String title;
   final String description;
-  final DateTime started;
+  final DateTime startedDate;
   final DateTime dueDate;
   final Priority priority;
+  final Status status;
   final bool isCompleted;
 
   TaskEntity({
@@ -14,7 +15,8 @@ class TaskEntity {
     required this.title,
     required this.description,
     required this.dueDate,
-    required this.started,
+    required this.startedDate,
+    this.status = Status.notStarted,
     this.priority = Priority.medium,
     this.isCompleted = false,
   });
