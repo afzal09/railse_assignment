@@ -4,10 +4,11 @@ class TaskModel extends TaskEntity{
   TaskModel({
     required super.user,
     required super.title,
-    required super.description, 
+    required super.description,
+    required super.started, 
     required super.dueDate,
     super.priority,
-    super.isCompleted
+    super.isCompleted, 
   });
     Map<String, dynamic> toMap() {
     return {
@@ -24,6 +25,7 @@ class TaskModel extends TaskEntity{
       user: entity.user,
       title: entity.title,
       description: entity.description,
+      started: entity.started,
       dueDate: entity.dueDate,
       priority: entity.priority,
       isCompleted: entity.isCompleted,
@@ -36,6 +38,7 @@ class TaskModel extends TaskEntity{
       user: user,
       title: title,
       description: description,
+      started: started,
       dueDate: dueDate,
       priority: priority,
       isCompleted: isCompleted,
