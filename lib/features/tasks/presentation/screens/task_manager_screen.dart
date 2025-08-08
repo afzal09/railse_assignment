@@ -1,91 +1,40 @@
-import 'package:flutter/material.dart';
-import 'package:railse_assignment/features/tasks/data/models/task_model.dart';
-import 'package:railse_assignment/features/tasks/domain/entities/task_entity.dart';
+// ignore_for_file: subtype_of_sealed_class
 
-class TaskManagerScreen extends StatefulWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:railse_assignment/features/tasks/domain/entities/task_entity.dart';
+import 'package:railse_assignment/features/tasks/presentation/providers/task_provider.dart';
+import 'package:railse_assignment/features/tasks/presentation/screens/common/tasktile.dart';
+import 'package:railse_assignment/theme_values.dart';
+
+
+class TaskManagerScreen extends ConsumerWidget {
   const TaskManagerScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _TaskManagerScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
 
-class _TaskManagerScreenState extends State<TaskManagerScreen> {
-  // final List<TaskModel> tasks = [TaskModel(
-  //   user: 'user',
-  //   title: 'title',
-  //   description: 'description',
-  //   started: DateTime.now(),
-  //   dueDate: DateTime.now().add(const Duration(days: 1)))];
-  final TaskModel task = TaskModel(
-    user: 'afzal',
-    title: 'title',
-    description: 'description',
-    startedDate: DateTime.now(),
-    dueDate: DateTime.now().add(const Duration(days: 1)),
-    priority: Priority.low,
-  );
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: ListView(children: [_buildTaskTile(task)]));
-  }
+    final List<TaskEntity> tasks = ref.watch(taskNotifier);
 
-  Widget _buildTaskTile(TaskModel task) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        border: Border(
-          left: BorderSide(
-            color: Colors.red, 
-            width: 6.0, 
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(Icons.task_alt, color: AppColors.darkGray, size: 30),
+        title: const Text(
+          'TaskManager UI',
+          style: TextStyle(color: AppColors.darkGray),
         ),
+        backgroundColor: AppColors.white,
+        elevation: 1,
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-        ), 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment
-                  .start, 
-              mainAxisAlignment:
-                  MainAxisAlignment.center, 
-              children: [
-                Text(task.title),
-                Text(task.description),
-                const SizedBox(
-                  height: 8,
-                ), 
-                Row(
-                  children: [
-                    Text(
-                      '${task.user}',
-                    ), 
-                    Text('  ${task.priority.toString()}'),
-                  ],
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment
-                  .end,
-              mainAxisAlignment:
-                  MainAxisAlignment.center, 
-              children: [
-                Text('OverDue - ${task.dueDate.toString()}'),
-                Text(task.startedDate.toString()),
-                const SizedBox(height: 8), 
-                Text('Mark as Complete'),
-              ],
-            ),
-          ],
+      body: Container(
+        color: AppColors.lightGrayishBlue,
+        child: ListView.builder(
+          itemCount: tasks.length, 
+          itemBuilder: (context, index) {
+            return TaskTile(task: tasks[index]);
+          },
         ),
       ),
     );
   }
-
-  // Widget _buildTaskTileList(List<TaskModel> tasks) {}
 }
